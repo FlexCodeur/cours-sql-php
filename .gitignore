@@ -1,0 +1,7 @@
+gulpfile.js
+*.log
+*.json
+node_modules/
+src/
+libs/
+.vscode/

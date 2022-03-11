@@ -3,8 +3,10 @@
 // var_dump(__DIR__);
 // var_dump(dirname(__DIR__));
 // var_dump(dirname(dirname(__DIR__)));
-
+// function time() donne le timestamp immédiat
+setcookie('test_cookie','valeur du cookie', time() + 60*60*24*365, '/');
 require_once dirname(__DIR__) . '/functions.php'; ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -259,6 +259,15 @@ $array = array(
     <br>
     <p>Dans l'url request_url.php on récupérera la donnée de cette façon : $_GET['variable'];</p>
     <?php var_dump(isset($_GET['variable'])); ?>
+    <?php $comment_id = 2503; ?>
+    <a href="<?php echo HOME_URL; ?>requests/request_get.php?comment_id=<?php echo $comment_id; ?>">Effacer le
+        commentaire</a>
+    <br>
+    <h4>Exercice</h4>
+    <p>Créer 2 liens vers request_get.php</p>
+    <p>Un lien ou un bouton qui affiche une image</p>
+    <p>Un lien ou un bouton qui affiche du texte (lorem)</p>
+
     <br><br>
     <h3>$_POST</h3>
     <p>Le $_POST sert à récupérer les données envoyés par formulaire</p>
@@ -266,7 +275,7 @@ $array = array(
     <p>action : sert à definir la page php où on soumet le formulaire</p>
     <p>method : le type de requête. Pour les formulaires retenez toujours POST</p>
     <p>Dans le input ou textarea le "name" sera le nom de la variable à récupérer</p>
-    <form action="<?php echo HOME_URL; ?>requests/request_post.php" method="POST">
+    <form action="<?php echo HOME_URL; ?>requests/request_post.php" method="POST" class="file_form">
         <div>
             <label for="firstname">Prénom</label>
             <!-- l'attribut name va définir le $_POST ==> ici on récupèrera $_POST['firstname']; -->
@@ -287,7 +296,6 @@ $array = array(
 
         <button type="submit">Envoyer</button>
     </form>
-    <br>
     <h4>Exercice</h4>
     <p>Envoyer un formulaire en méthode POST vers request_post.php avec</p>
     <ul>
@@ -295,22 +303,93 @@ $array = array(
         <li>mot de passe</li>
     </ul>
     <br>
-    <form action="<?php echo HOME_URL; ?>requests/request_post.php" method="POST">
+    <br>
+    <form action="<?php echo HOME_URL; ?>requests/request_post.php" method="POST" class="file_form">
         <div>
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" required>
+            <label for="email">Email<span class="red">*</span></label>
+            <!-- l'attribut name va définir le $_POST ==> ici on récupèrera $_POST['email']; -->
+            <input type="email" name="email" id="email" required>
         </div>
         <div>
-            <label for="message">Mot de passe</label>
+            <label for="password">Mot de passe<span class="red">*</span></label>
             <input type="password" name="password" id="password" required>
+        </div>
+
+        <button type="submit">Envoyer</button>
+    </form>
+    <br><br>
+    <h3>$_FILES</h3>
+    <p>Attention il faudra rajouter l'attribut enctype="multipart/form-data"</p>
+    <p>De même que $_GET et $_POST, $_FILES sert uniquement à récupérer les données envoyées par le formulaire</p>
+    <p>On verra plus tard comment on traite le fichier en PHP</p>
+    <form action="<?php echo HOME_URL; ?>requests/request_post.php" method="POST" class="file_form"
+        enctype="multipart/form-data">
+        <div>
+            <label for="file">Envoyer un fichier</label>
+            <!-- l'attribut name va définir le $_POST ==> ici on récupèrera $_FILES['file']; -->
+            <!-- ce input hidden va limiter la taille du fichier mais uniquement par le formulaire -->
+            <input type="hidden" name="MAX_FILE_SIZE" value="2097152"> <!-- 2Mo => 2*1024*1024 -->
+            <input type="file" name="file" id="file">
         </div>
         <button type="submit">Envoyer</button>
     </form>
+    <p>Pour envoyer plusieurs fichiers, on utilisera l'attribut multiple et le name sera sous forme de tableau</p>
+    <form action="<?php echo HOME_URL; ?>requests/request_post.php" method="POST" class="file_form"
+        enctype="multipart/form-data">
+        <div>
+            <label for="file">Envoyer des fichiers</label>
+            <!-- l'attribut name va définir le $_POST ==> ici on récupèrera $_FILES['file']; -->
+            <input type="file" name="files[]" id="file" multiple>
+        </div>
+        <button type="submit">Envoyer</button>
+    </form>
+
+
+    <br><br>
+    <h3>$_COOKIE</h3>
+    <p>cette superglobales est faite pour récupérer la valeur d'un ou des cookies</p>
+    <p>Les cookies sont un stockage de variables avec leur valeur dans le client de l'utilisateur. Celle-ci a une durée
+        de validité (en timestamp pour PHP), si aucune durée de cookie est définie, le cookie sera détruit dès que le
+        navigateur sera fermé</p>
+    <p>Pour créer un cookie, on utilisera setcookie()</p>
+    <p>Attention un cookie doit être créé en début de page php, pas au milieu ou à la fin.</p>
     <br>
+    <h4>exemple</h4>
+    <p>voir dans fichier header.php</p>
+    <br><br>
+
+
+    <h3>$_SESSION</h3>
+    <p>C'est un espace où l'on va pouvoir stocker des variables côté serveur</p>
+    <p>Cette session est généralement valide pendant 30 minutes sans activité (paramètre courant d'un serveur)</p>
+    <p>Pour activer la lecture est l'inscription de données, il faudra mettre en session_start() au début de chaque page
+        (si les variables de sessions sont utiles)</p>
+    <p>Différence avec les autres superglobales, on peut inscrire et lire une variable avec $_SESSION</p>
     <br>
+    <p>On inscrit $_SESSION['user'] = "Otis";</p>
+    <p>On lit $_SESSION['user'];</p>
+
+    <?php $_SESSION['user'] = "Otis FÉRU"; ?>
+
+    <br><br>
+    <h3>$_REQUEST</h3>
+    <p>cette superglobale regroupe $_GET, $_POST et $_COOKIE</p>
 
 
+    <br><br>
+    <h3>$_ENV</h3>
+    <p>cette superglobale fournit les variables d'environnement paramétré dans Apache</p>
+    <?php var_dump($_ENV); ?>
 
+    <h4>Exercice</h4>
+    <?php $img = 'assets/img/spring.jpg' ?>
+    <a class="btn" href="<?php echo HOME_URL; ?>
+	<?php echo $img; ?>">GET Image</a>
+    <br>
+    <?php $txt; ?>
+    <a class="btn"
+        href="<?php echo HOME_URL; ?>requests/request_get.php?txt=Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque alias est cupiditate deserunt, ut esse nostrum magnam eaque totam distinctio earum incidunt, accusamus voluptate saepe.">GET
+        texte</a>
 
 </main>
 <?php include __DIR__ . '/footer.php';
