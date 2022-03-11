@@ -18,7 +18,7 @@ require_once dirname(__DIR__) . '/functions.php'; ?>
 		<nav>
 			<ul>
 				<li><a href="<?php echo HOME_URL; ?>">Les variables</a></li>
-				<li><a href="">lien 2</a></li>
+				<li><a href="<?php echo HOME_URL; ?>views/conditions.php">Les conditions</a></li>
 				<li><a href="">lien 3</a></li>
 				<li><a href="">lien 4</a></li>
 				<li><a href="">lien 5</a></li>
