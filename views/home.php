@@ -298,11 +298,11 @@ $array = array(
     <form action="<?php echo HOME_URL; ?>requests/request_post.php" method="POST">
         <div>
             <label for="email">Email</label>
-            <input type="text" name="email" id="email">
+            <input type="text" name="email" id="email" required>
         </div>
         <div>
             <label for="message">Mot de passe</label>
-            <input type="password" name="password" id="password">
+            <input type="password" name="password" id="password" required>
         </div>
         <button type="submit">Envoyer</button>
     </form>
