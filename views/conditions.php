@@ -201,6 +201,5 @@ $expressionResult = match ($condition) {
 
 	</pre>
 
-	?>
 </main>
 <?php include __DIR__ . '/footer.php';
