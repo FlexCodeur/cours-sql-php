@@ -57,12 +57,12 @@ include __DIR__ . '/header.php'; ?>
         </p>
         <br>
         <code>
-			$first_var = 'je suis ma première variable';
-			<?php $first_var = 'je suis ma première variable'; ?>
-			<br>
-			<?php echo $first_var; ?>
-			<!-- echo sert à afficher la variable en front (print); -->
-		</code>
+            $first_var = 'je suis ma première variable';
+            <?php $first_var = 'je suis ma première variable'; ?>
+            <br>
+            <?php echo $first_var; ?>
+            <!-- echo sert à afficher la variable en front (print); -->
+        </code>
 
         <h2>Concaténation</h2>
 
@@ -93,20 +93,20 @@ include __DIR__ . '/header.php'; ?>
 			</code>
 		</pre>
         <?php
-		$text = '<article>';
-		$text .= '<h3> test concaténation variable</h3>';
-		$text .= '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum accusantium eaque consequatur sed deleniti nostrum earum veritatis voluptatibus. Esse quia rem similique et adipisci commodi accusantium sunt cupiditate autem velit?
+        $text = '<article>';
+        $text .= '<h3> test concaténation variable</h3>';
+        $text .= '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum accusantium eaque consequatur sed deleniti nostrum earum veritatis voluptatibus. Esse quia rem similique et adipisci commodi accusantium sunt cupiditate autem velit?
 		Quis dignissimos molestias corrupti soluta a sit voluptate ipsum nam dicta, eveniet dolor. Aperiam aspernatur officia vitae amet sequi itaque ut temporibus earum delectus quod facere, enim, iusto autem nihil.
 		Obcaecati impedit odit molestias similique, laboriosam enim placeat doloribus aspernatur tenetur ea voluptatem ex corporis vel ratione minus possimus animi quasi voluptates, tempore nam eveniet ut fugiat. Suscipit atque, ex.</p>';
-		$text .= '</article>';
+        $text .= '</article>';
 
-		echo $text;
+        echo $text;
 
-		$var1 = '5';
-		$var2 = 5;
-		$result = $var1 . $var2;
-		echo $result; // affiche 55 
-		?>
+        $var1 = '5';
+        $var2 = 5;
+        $result = $var1 . $var2;
+        echo $result; // affiche 55 
+        ?>
         <br><br>
         <h2>Portée des variables</h2>
         <p>Les variables en PHP ont uniquement une portée de function
@@ -125,26 +125,26 @@ include __DIR__ . '/header.php'; ?>
 			</code>
 		</pre>
         <?php
-		$test = 'Otis'; // déclarée en global
+        $test = 'Otis'; // déclarée en global
 
-		var_dump($test);
+        var_dump($test);
 
-		echo '<br>';
+        echo '<br>';
 
-		function appel_variable()
-		{
-			$test = 'FERU'; // encapsulée dans la fonction
-			var_dump($test);
-		}
+        function appel_variable()
+        {
+            $test = 'FERU'; // encapsulée dans la fonction
+            var_dump($test);
+        }
 
-		var_dump($test);
+        var_dump($test);
 
-		echo '<br>';
-		echo $test; // affiche OTIS
-		echo '<br>';
-		echo appel_variable(); // affiche FERU
-		echo '<br>';
-		?>
+        echo '<br>';
+        echo $test; // affiche OTIS
+        echo '<br>';
+        echo appel_variable(); // affiche FERU
+        echo '<br>';
+        ?>
         <br>
         <br>
         <h2>Les constantes</h2>
@@ -156,19 +156,19 @@ include __DIR__ . '/header.php'; ?>
         <p>Exemple :</p>
         <p><code>define('NOM_ECOLE', 'Campus du Lac');</code></p>
         <?php
-		define('NOM_ECOLE', 'Campus du Lac');
-		echo '<p><code>' . NOM_ECOLE . '</code></p>';
-		?>
+        define('NOM_ECOLE', 'Campus du Lac');
+        echo '<p><code>' . NOM_ECOLE . '</code></p>';
+        ?>
         <br><br>
         <h2>Les tableaux</h2>
         <h3>tableau simple</h3>
         <p>
             <code>
-				$array = array('bleu', 'blanc', 'rouge');<br>
-				$array = ['bleu', 'blanc', 'rouge'];<br>
-				$array[0] ==> 'bleu';
-				Le premier élément est 0, le second 1, etc...
-			</code>
+                $array = array('bleu', 'blanc', 'rouge');<br>
+                $array = ['bleu', 'blanc', 'rouge'];<br>
+                $array[0] ==> 'bleu';
+                Le premier élément est 0, le second 1, etc...
+            </code>
         </p>
         <?php $array = array('bleu', 'blanc', 'rouge'); ?>
         <?php $array = ['bleu', 'blanc', 'rouge']; ?>
@@ -177,20 +177,20 @@ include __DIR__ . '/header.php'; ?>
 			<?php var_dump($array); ?>
 		</pre>
         <?php
-		echo '<pre>';
-		var_dump($array);
-		echo '</pre>';
-		?>
+        echo '<pre>';
+        var_dump($array);
+        echo '</pre>';
+        ?>
         <br>
         <p>Récupération de la bdd en format json</p>
         <?php
-		$result_bdd = json_encode(array('test@test.fr', 'thomas@fototoua.nul'));
-		var_dump($result_bdd); ?>
+        $result_bdd = json_encode(array('test@test.fr', 'thomas@fototoua.nul'));
+        var_dump($result_bdd); ?>
         <br><br>
         <p>Remise en tableau PHP</p>
         <?php
-		$array_bdd = json_decode($result_bdd);
-		var_dump($array_bdd); ?>
+        $array_bdd = json_decode($result_bdd);
+        var_dump($array_bdd); ?>
         <br><br>
         <h3>tableau associatif</h3>
         <pre>
@@ -204,29 +204,29 @@ $array = array(
 		</pre>
 
         <?php
-		$array = array(
-			'couleur' => 'bleu',
-			'dimension' => '25m3',
-			'matiere' => 'coton'
-		);
-		var_dump($array);
-		?>
+        $array = array(
+            'couleur' => 'bleu',
+            'dimension' => '25m3',
+            'matiere' => 'coton'
+        );
+        var_dump($array);
+        ?>
         <h3>tableau multi-dimensionnel</h3>
         <?php $array = array(
-			'nom' => 'FERU',
-			'prenom' => 'Otis',
-			'enfant' => array(
-				array(
-					'nom' => 'FERU',
-					'prenom' => 'Dorian',
-				),
-				array(
-					'nom' => 'FERU',
-					'prenom' => 'Nala',
-				),
+            'nom' => 'FERU',
+            'prenom' => 'Otis',
+            'enfant' => array(
+                array(
+                    'nom' => 'FERU',
+                    'prenom' => 'Dorian',
+                ),
+                array(
+                    'nom' => 'FERU',
+                    'prenom' => 'Nala',
+                ),
 
-			)
-		); ?>
+            )
+        ); ?>
         <pre>
 			<?php var_dump($array['enfant'][0]['prenom']); ?>
 		</pre>
@@ -381,15 +381,6 @@ $array = array(
     <p>cette superglobale fournit les variables d'environnement paramétré dans Apache</p>
     <?php var_dump($_ENV); ?>
 
-    <h4>Exercice</h4>
-    <?php $img = 'assets/img/spring.jpg' ?>
-    <a class="btn" href="<?php echo HOME_URL; ?>
-	<?php echo $img; ?>">GET Image</a>
-    <br>
-    <?php $txt; ?>
-    <a class="btn"
-        href="<?php echo HOME_URL; ?>requests/request_get.php?txt=Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque alias est cupiditate deserunt, ut esse nostrum magnam eaque totam distinctio earum incidunt, accusamus voluptate saepe.">GET
-        texte</a>
 
 </main>
 <?php include __DIR__ . '/footer.php';
