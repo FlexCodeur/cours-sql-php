@@ -4,7 +4,7 @@ require_once PATH_PROJECT . '/connect.php';
 
 // on veut tous les résultats, on injecte pas de variable php dans la requête sql => $db->query suffit
 $req = $db->query("
-	SELECT a.id, a.title, a.content, a.created_at, u.first_name, u.last_name
+	SELECT a.id, a.id_user, a.title, a.content, a.created_at, u.first_name, u.last_name
 	FROM articles a
 	LEFT JOIN users u
 	ON u.id = a.id_user
@@ -26,17 +26,35 @@ $results = $req->fetchAll(PDO::FETCH_OBJ); ?>
 
 <h1>Mon super blog</h1>
 <main>
-	<?php foreach($results as $result) : ?>
-		<?php // var_dump($result); ?>
+	<?php foreach($results as $result) :
+
+		$id_article = $result->id; ?>
+		<!-- 
+		exercice :
+		ajouter, pour chaque article les icones éditer et supprimer :
+		- pour les admins = éditer, supprimer pour tous les articles
+		- pour les éditeurs = éditer seulement pour les articles qu'ils ont écrit
+		-->
 		<article class="article">
+			<!-- Bouton action sur l'article si connecté et différent de user -->
+			<?php if(isset($_SESSION['id_user']) && $_SESSION['role_slug'] != 'user') : ?>
+				<div class="article_action">
+					<!-- update article -->
+					<a href=""><i class="fa-solid fa-pencil fa-2x"></i></a>
+					<!-- delete article -->
+					<a href=""><i class="fa-solid fa-trash-can fa-2x"></i></a>
+					
+				</div>
+			<?php endif; ?>
+			
 			<h2><?php echo $result->title; ?></h2>
 			<p>Écrit par <?php echo $result->first_name . ' ' . $result->last_name; ?></p>
 			<p>Date : <?= $result->created_at; ?></p>
 			<!-- https://www.php.net/manual/fr/function.substr.php -->
 			<p>Résumé : <?= substr($result->content, 0, 70); ?> ...</p>
-			<?php 
+			
 			$id_article = $result->id;
-
+			<?php 
 			// comme on a besoin d'une variable php pour aliemnter la requête, il faudra faire une requête préparée, pour éviter les injections SQL
 			$req = $db->prepare("
 				SELECT c.id, c.comment_content, c.created_at, u.pseudo

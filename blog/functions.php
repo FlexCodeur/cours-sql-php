@@ -1,5 +1,5 @@
 <?php
-session_start(); // Oblogatoire pour utiliser les sessions
+session_start(); // obligatoire pour utiliser les sessions
 // on définit une constante de cette façon
 // define('NOM_DE_LA_CONSTANTE_EN_MAJUSCULE', 'VALEUR_DE_LA_CONSTANTE');
 define('HOME_URL', 'http://blog/'); // à chaque migration, cet élément sura surement à changer
