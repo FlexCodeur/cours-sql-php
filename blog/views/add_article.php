@@ -11,7 +11,7 @@ require __DIR__ . '/header.php';
         </div>
         <div>
             <label for="text">Contenu de l'article</label>
-            <textarea id="text" name="text"></textarea>
+            <textarea id="text" name="text" rows="5"></textarea>
         </div>
         <button type="submit">Valider</button>
     </form>

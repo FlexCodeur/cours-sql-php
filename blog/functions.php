@@ -13,6 +13,12 @@ if (isset($redirect_to_home)) :
         header('Location: ' . HOME_URL);
     endif;
 endif;
+// Pour éliminer la faille XSS
+function sanitize_html($string)
+{
+    // https://www.php.net/manual/fr/function.htmlspecialchars.php
+    return htmlspecialchars(trim($string));
+}
 // on définit une constante de cette façon
 // define('NOM_DE_LA_CONSTANTE_EN_MAJUSCULE', 'VALEUR_DE_LA_CONSTANTE');
 define('HOME_URL', 'http://blog/'); // à chaque migration, cet élément sura surement à changer

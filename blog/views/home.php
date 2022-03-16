@@ -57,16 +57,16 @@ if (isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
         </div>
         <?php endif; ?>
 
-        <h2><?php echo $article->title; ?></h2>
-        <p>Écrit par <?php echo $article->first_name . ' ' . $article->last_name; ?></p>
+        <h2><?php echo sanitize_html($article->title); ?></h2>
+        <p>Écrit par <?php echo sanitize_html($article->first_name . ' ' . $article->last_name); ?></p>
         <p>Date : <?= $article->created_at; ?></p>
         <!-- https://www.php.net/manual/fr/function.substr.php -->
-        <p>Résumé : <?= substr($article->content, 0, 70); ?> ...</p>
+        <p>Résumé : <?= sanitize_html(substr($article->content, 0, 70)); ?> ...</p>
         <?php
 			$id_article = $article->id;
 			// comme on a besoin d'une variable php pour aliemnter la requête, il faudra faire une requête préparée, pour éviter les injections SQL
-			$req = $db->prepare("
-				SELECT c.id, c.id_user, c.comment_content, c.created_at, u.pseudo
+			$req = $db->prepare("SELECT 
+				c.id, c.id_user, c.comment_content, c.created_at, u.pseudo
 				FROM comments c
 				INNER JOIN users u
 				ON u.id = c.id_user
@@ -96,8 +96,8 @@ if (isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
             <?php while ($comment = $req->fetch(PDO::FETCH_OBJ)) : ?>
             <div class="comment">
                 <div>
-                    <p><?php echo $comment->comment_content; ?></p>
-                    <p>Commenté par : <?php echo $comment->pseudo ?></p>
+                    <p><?php echo sanitize_html($comment->comment_content); ?></p>
+                    <p>Commenté par : <?php echo sanitize_html($comment->pseudo); ?></p>
                     <p>Date : <?php echo $comment->created_at; ?></p>
                 </div>
                 <div class="comment_action">
