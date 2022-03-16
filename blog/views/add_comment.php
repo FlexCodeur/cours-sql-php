@@ -1,12 +1,12 @@
 <?php
-$enable_access = array('administrator', 'editor');
+$enable_access = array('editor', 'user');
 require __DIR__ . '/header.php';
 require_once PATH_PROJECT . '/connect.php';
 
 $id_article = intval($_GET['id']); // si le $_GET n'est pas numerique, il ne pourra pas le transformer en integer
 
 if ($id_article) {
-    $req = $db->prepare("SELECT id, title, content
+    $req = $db->prepare("SELECT id
 		FROM articles
 		WHERE id = :id
 	");
@@ -19,17 +19,13 @@ if ($id_article) {
 
 ?>
 
-<h1 class="title">Formulaire de mise à jour d'un article</h1>
+<h1 class="title">Formulaire d'ajout d'un commentaire</h1>
 
 <div class="file_form">
-    <form action="<?php echo HOME_URL . 'requests/update_article_post.php'; ?>" method="POST">
+    <form action="<?php echo HOME_URL . 'requests/add_comment_post.php'; ?>" method="POST">
         <div>
-            <label for="title">Titre</label>
-            <input type="text" id="title" name="title" value="<?php echo sanitize_html($article->title); ?>">
-        </div>
-        <div>
-            <label for="text">Contenu de l'article</label>
-            <textarea id="text" name="text" rows="10"><?php echo sanitize_html($article->content); ?></textarea>
+            <label for="text">Contenu du commentaire</label>
+            <textarea id="text" name="comment" rows="10"></textarea>
         </div>
         <input type="hidden" name="id_article" value="<?php echo $article->id; ?>">
         <button type="submit">Valider</button>
