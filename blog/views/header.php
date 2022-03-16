@@ -12,11 +12,11 @@ require dirname(__DIR__) . '/functions.php';
 <body>
 	<header>
 		<?php if(isset($_SESSION['id_user'])) : ?>
-			<div class="disconnect">
+			<div class="disconnect cursor_pointer">
 				<a href="<?= HOME_URL . 'requests/disconnect.php'; ?>">Se déconnecter</a>
 			</div>
 		<?php else : ?>
-			<div class="connect">
+			<div class="connect cursor_pointer">
 				<div class="to_connect">Se connecter</div>
 				<div class="modal_connect">
 					<form action="<?php echo HOME_URL . 'requests/login_post.php'; ?>" method="POST">
