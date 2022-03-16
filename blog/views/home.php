@@ -48,7 +48,8 @@ if (isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
         <div class="article_action">
             <!-- update article -->
             <?php if ($role_slug == "administrator" || ($role_slug == 'editor' && $article->id_user == $_SESSION['id_user'])) : ?>
-            <a href=""><i class="fa-solid fa-pencil fa-2x"></i></a>
+            <a href="<?php echo HOME_URL . "views/update_article.php?id=" . $id_article; ?>"><i
+                    class="fa-solid fa-pencil fa-2x"></i></a>
             <?php endif; ?>
             <!-- delete article -->
             <?php if ($role_slug == 'administrator') : ?>

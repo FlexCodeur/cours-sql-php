@@ -1,18 +1,19 @@
 <?php
 session_start(); // obligatoire pour utiliser les sessions
 // condition pour rediriger vers la homePage si $redirect_to_home existe et n'est pas nul
-if (isset($redirect_to_home)) :
-    if (
-        !isset($_SESSION['id_user'])
-        ||
-        (isset($_SESSION['id_user'])
-            &&
-            in_array($_SESSION['role_slug'], $redirect_to_home)
-        )
-    ) :
-        header('Location: ' . HOME_URL);
-    endif;
+if (
+    !isset($_SESSION['id_user'])
+    ||
+    (isset($enable_access)
+        &&
+        isset($_SESSION['id_user'])
+        &&
+        !in_array($_SESSION['role_slug'], $enable_access)
+    )
+) :
+    header('Location: ' . HOME_URL);
 endif;
+
 // Pour éliminer la faille XSS
 function sanitize_html($string)
 {
