@@ -33,6 +33,7 @@ require dirname(__DIR__) . '/functions.php';
 					</form>
 				</div>
 			</div>
+			<a href="">S'inscrire</a>
 		<?php endif; ?>
 	</header>
 	<?php 

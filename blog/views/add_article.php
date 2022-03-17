@@ -1,9 +1,9 @@
 <?php
+require __DIR__ . '/header.php';
 // les roles qui ont accès à la page
 // les autres seront redirigés vers la page HOME
-$enable_access = array('administrator', 'editor'); 
+enabled_access(array('administrator', 'editor'));
 
-require __DIR__ . '/header.php';
 $title = isset($_GET['title']) ? $_GET['title'] : FALSE;
 $content = isset($_GET['content']) ? $_GET['content'] : FALSE;
 ?>

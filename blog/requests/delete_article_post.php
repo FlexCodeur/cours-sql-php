@@ -4,17 +4,18 @@ require_once PATH_PROJECT . '/connect.php';
 
 $id_article = intval($_GET['id']);
 
-if ($id_article) {
-	$req = $db->prepare("DELETE FROM articles 
-	WHERE id = :id
+if($id_article) {
+	$req = $db->prepare("
+		DELETE FROM articles WHERE id = :id
 	");
 	$req->bindValue(':id', $id_article, PDO::PARAM_INT);
 
 	$result = $req->execute();
 
-	if ($result) {
+	if($result) {
 		header('Location:' . HOME_URL . '?msg=<div class="green">Article supprimé</div>');
-	} else {
+	}
+	else {
 		header('Location:' . HOME_URL . '?msg=<div class="red">Erreur lors de la suppression</div>');
 	}
 }
