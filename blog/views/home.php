@@ -123,9 +123,10 @@ if (isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
 									)
 								)
 							) : ?>
-                    <a href="<?php echo HOME_URL . '/views/update_comment.php?id=' . $id_article ?>"><i
+                    <a href="<?php echo HOME_URL . '/views/update_comment.php?id=' . $comment->id ?>"><i
                             class="fa-solid fa-pencil"></i></a>
-                    <a href=""><i class="fa-solid fa-trash-can"></i></a>
+                    <a href="<?php echo HOME_URL . '/requests/delete_comment_post.php?id=' . $comment->id ?>"><i
+                            class="fa-solid fa-trash-can"></i></a>
                     <?php endif; ?>
                 </div>
 
@@ -157,7 +158,7 @@ if (isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
     <?php endforeach; ?>
 </main>
 <div class="pop_delete_article">
-    <p>Êtes-vous sûr de vouloir effacer cette article ?</p>
+    <p>Êtes-vous sûr de vouloir effacer <span class=".delete_label"></span></p>
     <div class="delete_action_article">
         <a class="delete_article" href="">
             <div class="green">
@@ -171,7 +172,6 @@ if (isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
 
     </div>
 </div>
-
 
 <?php
 require __DIR__ . '/footer.php';

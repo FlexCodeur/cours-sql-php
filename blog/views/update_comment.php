@@ -1,5 +1,5 @@
 <?php
-$enable_access = array('editor', 'user');
+$enable_access = array('administrator', 'editor', 'user');
 require __DIR__ . '/header.php';
 require_once PATH_PROJECT . '/connect.php';
 

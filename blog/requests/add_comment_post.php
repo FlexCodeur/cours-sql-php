@@ -7,7 +7,7 @@ if (in_array('', $_POST)) :
     header('Location:' . HOME_URL . 'views/add_comment.php?msg=' . $msg_error);
 else :
     $text = trim($_POST['comment']);
-    $id = intval($POST['id_article']);
+    $id = intval($_POST['id_article']);
 
     $req = $db->prepare("INSERT INTO comments
 	(id_user, id_article, comment_content, created_at)
@@ -27,7 +27,7 @@ else :
     if ($result) {
         header('Location:' . HOME_URL . '?msg=<div class="green">Commentaire ajouté</div>');
     } else {
-        header('Location:' . HOME_URL . 'views/add_comment.php?msg=<div class="red">Erreur, merci de renouveler votre commentaire</div>&id=' . $text);
+        header('Location:' . HOME_URL . 'views/add_comment.php?msg=<div class="red">Erreur, merci de renouveler votre commentaire</div>&id=' . $id . '&comment_content=' . $text);
     }
 
 endif;
