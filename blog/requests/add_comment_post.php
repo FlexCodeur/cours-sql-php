@@ -1,16 +1,17 @@
-<?php
+<?php 
 require dirname(__DIR__) . '/functions.php';
 require_once PATH_PROJECT . '/connect.php';
 
 $text = trim($_POST['text']);
 $id_article = intval($_POST['id_article']);
 
-if (in_array('', $_POST)) :
+if(in_array('', $_POST)) :
 	$msg_error = 'Merci de ne pas laisser un commentaire vide';
 	header('Location:' . HOME_URL . 'views/add_comment.php?id=' . $id_article . '&msg=' . $msg_error);
 
 else :
-	$req = $db->prepare("INSERT INTO comments(id_user, id_article, comment_content, created_at)
+	$req = $db->prepare("
+		INSERT INTO comments(id_user, id_article, comment_content, created_at)
 		VALUES (:id_user, :id_article, :content, NOW())
 	");
 
@@ -24,10 +25,12 @@ else :
 	// si FALSE une erreur s'est produite
 	$result = $req->execute();
 
-	if ($result) {
+	if($result) {
 		header('Location:' . HOME_URL . '?msg=<div class="green">Commentaire ajouté</div>');
-	} else {
+	}
+	else {
 		header('Location:' . HOME_URL . 'views/add_comment.php?id=' . $id_article . '&msg=Erreur lors de l\'ajout du commentaire');
 	}
 
 endif;
+

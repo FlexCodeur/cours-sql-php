@@ -33,3 +33,28 @@ function sanitize_html($string) {
 	// https://www.php.net/manual/fr/function.htmlspecialchars.php
 	return htmlspecialchars(trim($string));
 }
+
+// pour ne mettre que la première lettre en majuscule
+function mb_ucfirst($string) {
+	// je mets la chaine de caractère en minuscule
+	$string = mb_strtolower(trim($string));
+	// je récupère la première lettre de la chaîne
+    $firstChar = mb_substr($string, 0, 1);
+    // je récupère le reste de la chaîne (sans le premier caractère)
+    $then = mb_substr($string, 1);
+    return mb_strtoupper($firstChar) . $then;
+}
+
+// function pour checker le password
+function check_password($pass) {
+	preg_match('#^(?=(.*[A-Z])+)(?=(.*[a-z])+)(?=(.*[\d])+)(?=.*\W)(?!.*\s).{8,16}$#', $pass, $match);
+	if(empty($match)) {
+		return FALSE;
+	}
+	return TRUE;
+}
+
+// pour mettre au pluriel
+function plural($count) {
+	return $count > 1 ? 's' : '';
+}

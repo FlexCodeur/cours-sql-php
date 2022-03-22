@@ -2,7 +2,7 @@
 require dirname(__DIR__) . '/functions.php';
 require_once PATH_PROJECT . '/connect.php';
 
-if (in_array('', $_POST)) : // if(empty($_POST['email']) || empty($_POST['password']))
+if(in_array('', $_POST)) : // if(empty($_POST['email']) || empty($_POST['password']))
 	$msg_error = "<div class=\"red\">Merci de remplir tous les champs</div>";
 else :
 	// https://www.php.net/manual/fr/function.filter-var.php
@@ -10,10 +10,11 @@ else :
 	// strtolower string to lowercase => va remettre la chaine en minuscule
 	// trim va éliminer les espaces en début et fin de chaine
 	$email = filter_var(strtolower(trim($_POST['email'])), FILTER_VALIDATE_EMAIL);
-	if (!$email) : // $email === FALSE
+	if(!$email) : // $email === FALSE
 		$msg_error = "<div class=\"red\">Merci de renseigner un email valide</div>";
 	else :
-		$req = $db->prepare("SELECT u.*, r.role_name, r.role_slug
+		$req = $db->prepare("
+			SELECT u.*, r.role_name, r.role_slug
 			FROM users u
 			INNER JOIN roles r
 			ON r.id = u.id_role
@@ -26,7 +27,7 @@ else :
 		// un seul fetch suffit car je n'attends qu'un seul résultat
 		$result = $req->fetch(PDO::FETCH_OBJ);
 
-		if (!$result) : // donc l'email n'est pas dans la BDD
+		if(!$result) : // donc l'email n'est pas dans la BDD
 			$msg_error = "<div class=\"red\">Le mot de passe ou l'identifiant ne sont pas valides</div>";
 		else :
 			$password = trim($_POST['password']);
@@ -56,8 +57,9 @@ else :
 endif;
 
 // https://www.php.net/manual/fr/function.isset.php
-if (isset($msg_error)) { // isset vérifie si la variable existe et qu'elle n'est pas nulle
+if(isset($msg_error)) { // isset vérifie si la variable existe et qu'elle n'est pas nulle
 	header('Location: ' . HOME_URL . '?msg=' . $msg_error);
-} else {
+}
+else {
 	header('Location: ' . HOME_URL . '?msg=' . $msg_success);
 }
