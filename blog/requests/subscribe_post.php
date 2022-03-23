@@ -2,7 +2,7 @@
 require dirname(__DIR__) . '/functions.php';
 require_once PATH_PROJECT . '/connect.php';
 
-if(in_array('', $_POST)) :
+if (in_array('', $_POST)) :
 	$msg_error = 'Merci de remplir tous les champs manquants';
 else :
 	$id_role = 3; // il est fixe, donc on le détermine en "dur"
@@ -14,14 +14,13 @@ else :
 	$pass2 		= trim($_POST['password2']);
 	$match_pass = check_password($pass1); // je check pour voir s'il correspond au pattern
 
-	if($pass1 != $pass2) :
+	if ($pass1 != $pass2) :
 		$msg_error = 'Les mots de passe ne correspondent pas';
-	elseif(!$match_pass) :
+	elseif (!$match_pass) :
 		$msg_error = 'Le mot de passe ne correspond pas au format exigé';
 	else :
 		// on vérifie que le pseudo n'existe pas dans la BDD
-		$req = $db->prepare("
-			SELECT COUNT(id) count_pseudo
+		$req = $db->prepare("SELECT COUNT(id) count_pseudo
 			-- je compte le nombre de pseudo identique
 			FROM users
 			WHERE pseudo = :pseudo
@@ -32,11 +31,10 @@ else :
 		$req->execute();
 		$result = $req->fetch(PDO::FETCH_OBJ);
 
-		if($result->count_pseudo) : // si > 0
+		if ($result->count_pseudo) : // si > 0
 			$msg_error = 'Ce pseudo existe déjà';
 		else :
-			$req = $db->prepare("
-				SELECT COUNT(id) count_email
+			$req = $db->prepare("SELECT COUNT(id) count_email
 				FROM users
 				WHERE email = :email
 			");
@@ -47,11 +45,10 @@ else :
 
 			$result = $req->fetch(PDO::FETCH_OBJ);
 
-			if($result->count_email) : // si > 0
+			if ($result->count_email) : // si > 0
 				$msg_error = 'Vous avez déjà un compte avec cet email';
 			else :
-				$req = $db->prepare("
-					INSERT INTO users(id_role, first_name, last_name, pseudo, email, password)
+				$req = $db->prepare("INSERT INTO users(id_role, first_name, last_name, pseudo, email, password)
 					VALUES (:id_role, :first_name, :last_name, :pseudo, :email, :password)
 				");
 				$req->bindValue(':id_role', $id_role, PDO::PARAM_INT);
@@ -64,7 +61,7 @@ else :
 
 				$result = $req->execute();
 
-				if($result) :
+				if ($result) :
 					$msg_success = 'Vous êtes bien inscrit';
 				else :
 					$msg_error = 'Oups !! erreur lors de la création du profil';
@@ -74,9 +71,8 @@ else :
 	endif;
 endif;
 
-if(isset($msg_error)) {
+if (isset($msg_error)) {
 	header('Location:' . HOME_URL . 'views/subscribe.php?msg=' . $msg_error);
-}
-else {
+} else {
 	header('Location:' . HOME_URL . '?msg=' . $msg_success);
 }

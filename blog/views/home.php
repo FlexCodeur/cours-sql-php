@@ -2,8 +2,7 @@
 require __DIR__ . '/header.php';
 require_once PATH_PROJECT . '/connect.php';
 
-$req = $db->query("
-	SELECT COUNT(id) AS count_article
+$req = $db->query("SELECT COUNT(id) AS count_article
 	FROM articles
 ");
 $result = $req->fetchObject();
@@ -18,16 +17,14 @@ $number_pages = ceil($count_articles / $per_page); // ceil arrondi au chiffre su
 // on détermine si l'utilisateur a déjà navigué :
 // si oui, on récupére la page courante
 // si non, on remet à la première page
-if(isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $number_pages) {
+if (isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $number_pages) {
 	$current_page = $_GET['page'];
-}
-else {
+} else {
 	$current_page = 1;
 }
 
 // on veut tous les résultats, on injecte pas de variable php dans la requête sql => $db->query suffit
-$req = $db->prepare("
-	SELECT a.id, a.id_user, a.title, a.content, a.created_at, u.first_name, u.last_name
+$req = $db->prepare("SELECT a.id, a.id_user, a.title, a.content, a.created_at, u.first_name, u.last_name
 	FROM articles a
 	LEFT JOIN users u
 	ON u.id = a.id_user
@@ -59,51 +56,55 @@ $req->bindValue(':per_page', $per_page, PDO::PARAM_INT);
 $req->execute();
 $articles = $req->fetchAll(PDO::FETCH_OBJ);
 
-if(isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
+if (isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
 ?>
 
-<h1>Mon super blog <?php if(isset($role_slug) && $role_slug != 'user') echo "<span><a href=\"" . HOME_URL . "views/add_article.php\"><i class=\"fa-solid fa-circle-plus\"></i></a></span>"; ?></h1>
+<h1>Mon super blog
+    <?php if (isset($role_slug) && $role_slug != 'user') echo "<span><a href=\"" . HOME_URL . "views/add_article.php\"><i class=\"fa-solid fa-circle-plus\"></i></a></span>"; ?>
+</h1>
 <main>
-	
-	<?php
+
+    <?php
 	include PATH_PROJECT . '/views/navigation.php';
-	foreach($articles as $article) :
+	foreach ($articles as $article) :
 
 		$id_article = $article->id;
-		?>
-		<!-- 
+	?>
+    <!-- 
 		exercice :
 		ajouter, pour chaque article les icones éditer et supprimer :
 		- pour les admins = éditer, supprimer pour tous les articles
 		- pour les éditeurs = éditer seulement pour les articles qu'ils ont écrit
 		-->
-		<article class="article">
-			<!-- Bouton action sur l'article si connecté et différent de user -->
-			<?php if(isset($_SESSION['id_user']) && $_SESSION['role_slug'] != 'user') : 
-				
-				?>
-				<div class="article_action">
-					<!-- update article -->
-					<?php if( $role_slug == "administrator" || ($role_slug == 'editor' && $article->id_user == $_SESSION['id_user'] ) ) : ?>
-						<a href="<?php echo HOME_URL . 'views/update_article.php?id=' . $id_article; ?>"><i class="fa-solid fa-pencil fa-2x"></i></a>
-					<?php endif; ?>
-					<!-- delete article -->
-					<?php if($role_slug == 'administrator') : ?>
-						<a class="delete_article" href="<?php echo HOME_URL . 'requests/delete_article_post.php?id=' . $id_article; ?>"><i class="fa-solid fa-trash-can fa-2x"></i></a>
-					<?php endif; ?>					
-				</div>
-			<?php endif; ?>
+    <article class="article">
+        <!-- Bouton action sur l'article si connecté et différent de user -->
+        <?php if (isset($_SESSION['id_user']) && $_SESSION['role_slug'] != 'user') :
 
-			<h2><?php echo sanitize_html($article->title); ?></h2>
-			<p>Écrit par <?php echo sanitize_html($article->first_name . ' ' . $article->last_name); ?></p>
-			<p>Date : <?= $article->created_at; ?></p>
-			<!-- https://www.php.net/manual/fr/function.substr.php -->
-			<p>Résumé : <?= sanitize_html(substr($article->content, 0, 70)); ?> ...</p>
-			<?php 
+			?>
+        <div class="article_action">
+            <!-- update article -->
+            <?php if ($role_slug == "administrator" || ($role_slug == 'editor' && $article->id_user == $_SESSION['id_user'])) : ?>
+            <a href="<?php echo HOME_URL . 'views/update_article.php?id=' . $id_article; ?>"><i
+                    class="fa-solid fa-pencil fa-2x"></i></a>
+            <?php endif; ?>
+            <!-- delete article -->
+            <?php if ($role_slug == 'administrator') : ?>
+            <a class="delete_article"
+                href="<?php echo HOME_URL . 'requests/delete_article_post.php?id=' . $id_article; ?>"><i
+                    class="fa-solid fa-trash-can fa-2x"></i></a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <h2><?php echo sanitize_html($article->title); ?></h2>
+        <p>Écrit par <?php echo sanitize_html($article->first_name . ' ' . $article->last_name); ?></p>
+        <p>Date : <?= $article->created_at; ?></p>
+        <!-- https://www.php.net/manual/fr/function.substr.php -->
+        <p>Résumé : <?= sanitize_html(substr($article->content, 0, 70)); ?> ...</p>
+        <?php
 
 			// comme on a besoin d'une variable php pour aliemnter la requête, il faudra faire une requête préparée, pour éviter les injections SQL
-			$req = $db->prepare("
-				SELECT c.id, c.id_user, c.comment_content, c.created_at, u.pseudo
+			$req = $db->prepare("SELECT c.id, c.id_user, c.comment_content, c.created_at, u.pseudo
 				FROM comments c
 				INNER JOIN users u
 				ON u.id = c.id_user
@@ -116,9 +117,10 @@ if(isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
 			// var_dump($req->fetch(PDO::FETCH_OBJ)); // 2ème résultat
 			// var_dump($req->fetch(PDO::FETCH_OBJ)); // 3ème résultat
 			// var_dump($req->fetch(PDO::FETCH_OBJ)); // 4ème résultat
-			// var_dump($req->fetch(PDO::FETCH_OBJ)); // FALSE ?>
+			// var_dump($req->fetch(PDO::FETCH_OBJ)); // FALSE 
+			?>
 
-			<!--
+        <!--
 			exercice :
 			ajouter le bouton ajouter un commentaire pour les utilisateurs et l'admin
 			l'editeur ne pourra ajouter un commentaire que si l'article n'est pas de lui
@@ -127,23 +129,22 @@ if(isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
 			ajouter les boutons editer et supprimer pour uniquement l'admin
 			les editeurs et utilisateurs ne pourront éditer et supprimer leurs propres commentaires
 			-->
-			<div class="comments">
+        <div class="comments">
 
-				<?php while($comment = $req->fetch(PDO::FETCH_OBJ)) : ?>
-					<div class="comment">
-						<div>
-							<p><?php echo sanitize_html($comment->comment_content); ?></p>
-							<p>Commenté par : <?php echo sanitize_html($comment->pseudo) ?></p>
-							<p>Date : <?php echo $comment->created_at; ?></p>
-						</div>
-						<div class="comment_action">
-							<?php
+            <?php while ($comment = $req->fetch(PDO::FETCH_OBJ)) : ?>
+            <div class="comment">
+                <div>
+                    <p><?php echo sanitize_html($comment->comment_content); ?></p>
+                    <p>Commenté par : <?php echo sanitize_html($comment->pseudo) ?></p>
+                    <p>Date : <?php echo $comment->created_at; ?></p>
+                </div>
+                <div class="comment_action">
+                    <?php
 							$enabled_comment = array('editor', 'user');
-							if( 
+							if (
 								isset($role_slug)
 								&&
-								(
-									$role_slug == "administrator"
+								($role_slug == "administrator"
 									||
 									(
 										// (
@@ -153,45 +154,47 @@ if(isset($_SESSION['role_slug'])) $role_slug = $_SESSION['role_slug'];
 										// (
 										// 	$role_slug == 'user' && $comment->id_user == $_SESSION['id_user']
 										// )
-										in_array($role_slug,$enabled_comment) && $comment->id_user == $_SESSION['id_user']	
+										in_array($role_slug, $enabled_comment) && $comment->id_user == $_SESSION['id_user']
 									)
 								)
 							) :
-							$id_comment = $comment->id;
+								$id_comment = $comment->id;
 							?>
-								<!-- bouton éditer -->
-								<a href="<?php echo HOME_URL . 'views/update_comment.php?id=' . $id_comment; ?>"><i class="fa-solid fa-pencil"></i></a>
-								<!-- bouton supprimer -->
-								<a class="delete_comment" href="<?php echo HOME_URL . 'requests/delete_comment_post.php?id=' . $id_comment; ?>"><i class="fa-solid fa-trash-can"></i></a>
-							<?php endif; ?>
-						</div>
-						
-					</div>
-				<?php endwhile; ?>
-				<?php 
-				if(
+                    <!-- bouton éditer -->
+                    <a href="<?php echo HOME_URL . 'views/update_comment.php?id=' . $id_comment; ?>"><i
+                            class="fa-solid fa-pencil"></i></a>
+                    <!-- bouton supprimer -->
+                    <a class="delete_comment"
+                        href="<?php echo HOME_URL . 'requests/delete_comment_post.php?id=' . $id_comment; ?>"><i
+                            class="fa-solid fa-trash-can"></i></a>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+            <?php endwhile; ?>
+            <?php
+				if (
 					isset($role_slug) // je vérifie si la variable existe (au cas où je suis déconnecté)
 					&&
 					(
-						(
-							$role_slug == 'administrator'
-							|| 
+						($role_slug == 'administrator'
+							||
 							$role_slug == 'user'
 						)
 						||
-						(
-							$role_slug == 'editor'
+						($role_slug == 'editor'
 							&&
 							$_SESSION['id_user'] != $article->id_user // id_user connecté != id_user de l'article
 						)
 					)
-					
+
 				) : ?>
-					<p><a href="<?php echo HOME_URL . 'views/add_comment.php?id=' . $id_article; ?>"><i class="fa-solid fa-circle-plus"></i> Ajouter un commentaire</a></p>
-				<?php endif; ?>
-			</div>
-		</article>
-	<?php endforeach; ?>
+            <p><a href="<?php echo HOME_URL . 'views/add_comment.php?id=' . $id_article; ?>"><i
+                        class="fa-solid fa-circle-plus"></i> Ajouter un commentaire</a></p>
+            <?php endif; ?>
+        </div>
+    </article>
+    <?php endforeach; ?>
 
 </main>
 <?php

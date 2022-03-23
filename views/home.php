@@ -7,8 +7,11 @@
 // require_once // idem require mais si le fichier est déjà chargé, il ne chargera pas une seconde fois
 
 // __DIR__ est une constante php qui donne le path serveur du dossier parent où se trouve le fichier courant
+define('TITLE', 'Intro - Les variables');
+define('META_DESCRIPTION','Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel ipsum aliquam exercitationem at in nulla veniam eveniet minus quas, quo perspiciatis cumque neque nostrum natus. Illo nemo quos sit placeat!');
 include __DIR__ . '/header.php'; ?>
 <main>
+
 	<h1>Introduction au PHP : Les variables</h1>
 
 	<section class="intro">

@@ -4,9 +4,8 @@ require_once PATH_PROJECT . '/connect.php';
 
 $id_user = intval($_GET['id']);
 
-if($id_user) {
-	$req = $db->prepare("
-		DELETE FROM users WHERE id = :id;
+if ($id_user) {
+	$req = $db->prepare("DELETE FROM users WHERE id = :id;
 		DELETE FROM articles WHERE id_user = :id;
 		DELETE FROM comments WHERE id_user = :id
 	");
@@ -14,10 +13,9 @@ if($id_user) {
 
 	$result = $req->execute();
 
-	if($result) {
+	if ($result) {
 		header('Location:' . HOME_URL . 'views/dashboard.php?msg=<div class="green">Utilisateur supprimé</div>');
-	}
-	else {
+	} else {
 		header('Location:' . HOME_URL . 'views/dashboard.php?msg=<div class="red">Erreur lors de la suppression</div>');
 	}
 }
